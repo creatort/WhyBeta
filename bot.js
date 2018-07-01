@@ -1,17 +1,12 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const prefix = "why_";
-var botver = "Version 1.0"
+const prefix = "why#";
+var botver = "Beta"
 var randomInt = require('random-int');
-var Helper = require('./components/helper.js');
-var Queue = require('./components/queue.js');
-var TrackHelper = require('./components/trackhelper.js');
-var WordService = require('./components/wordservice.js');
-var WeatherService = require('./components/weatherservice.js');
 
 client.on('ready', () => {
     console.log('Hey JP i am ready!')
-    client.user.setActivity(botver  + ' | why_help', { type: 'PLAYING' })
+    client.user.setActivity(botver  + ' | why#help', { type: 'PLAYING' })
 });
 
 client.on('message', message => {
@@ -35,9 +30,8 @@ client.on('message', message => {
     if (lc === prefix + 'help') {
       embed = new Discord.RichEmbed();
       embed.setColor("#80FF66");
-      embed.setAuthor("WhyBot Help");
-      embed.setDescription("You can use this Commands with WhyBot. Just type why_[command]");
-
+      embed.setAuthor("WhyBeta Help");
+      embed.setDescription("You can use this Commands with WhyBeta. Just type why#[command]");
       embed.addField("Commands", "ping\npong\nrps\n8ball\ncups\npizza\nhelp", true);
 
       embed.setFooter("WhyBot by JPlexer " + botver);
@@ -189,13 +183,6 @@ client.on('message', message => {
     var lc = message.content.toLowerCase();
     if (lc === prefix + 'lol') {
     	message.channel.send(':scream: You found the Secret :scream:');
-  	}
-});
-
-client.on('message', message => {
-    var lc = message.content.toLowerCase();
-    if (lc === 'o') {
-    	message.channel.send('Oh or Ok??');
   	}
 });
 
