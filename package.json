@@ -1,0 +1,14 @@
+{
+  "name": "whybot",
+  "description": "The ultra cool new bot made by JPlexer",
+  "version": "1.1.1",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "discord.js": "11.3.2",
+    "random-int": "1.0.0",
+    "request": "2.81.0"
+  }
+}
