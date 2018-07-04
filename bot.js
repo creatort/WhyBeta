@@ -88,7 +88,7 @@ return true;
         message.channel.sendMessage("Draw");
       }
 
-}else if ((lc.startsWith(prefix + '8ball')) && (lc.endsWith('?'))) {
+}else if (lc.startsWith(prefix + '8ball')){
    console.log(rnd);
    if(rnd===1) message.channel.sendMessage("No.");
    else if(rnd===2) message.channel.sendMessage("Not Probable.");
@@ -112,7 +112,7 @@ return true;
   if(lc ==='cup 1'){
     if(cup===2){
       //win
-      message.channel.sendMessage("It was"+ result);
+      message.channel.sendMessage("It was "+ result);
       message.channel.sendMessage("You lost!");
     }else if(cup===1){
       //lose
