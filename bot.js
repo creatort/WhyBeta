@@ -11,6 +11,9 @@ client.on('ready', () => {
 
 client.on('message', message => {
     var lc = message.content.toLowerCase();
+    var res = randomInt(1,3);
+    var rnd = randomInt(1,5);
+    var cup = randomInt(1,3);
     if (lc === prefix + 'ping') {
         message.channel.sendMessage(':ping_pong:Pong! Your ping is `' + `${Date.now() - message.createdTimestamp}` + ' ms`');
 
@@ -32,7 +35,6 @@ return true;
      message.channel.send('Here is your Pizza! :pizza: ')
 
 }else if(lc === prefix + 'rps'){
-  res = randomInt(1,3);
     //scissors 1
     //paper 2
     //rock 3
@@ -87,7 +89,6 @@ return true;
       }
 
 }else if ((lc.startsWith(prefix + '8ball')) && (lc.endsWith('?'))) {
-   var rnd = randomInt(1,5);
    console.log(rnd);
    if(rnd===1) message.channel.sendMessage("No.");
    else if(rnd===2) message.channel.sendMessage("Not Probable.");
@@ -96,7 +97,6 @@ return true;
    else if(rnd===5) message.channel.sendMessage("Yes.");
 
 }else if(lc === prefix + 'cups'){
-cup = randomInt(1,3);
   //scissors 1
   //paper 2
   //rock 3
