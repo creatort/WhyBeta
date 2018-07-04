@@ -88,7 +88,7 @@ return true;
         message.channel.sendMessage("Draw");
       }
 
-}else if (lc.startsWith(prefix + '8ball')){
+}else if (lc.startsWith(prefix + '8ball')&(lc.endsWith('?'))){
    console.log(rnd);
    if(rnd===1) message.channel.sendMessage("No.");
    else if(rnd===2) message.channel.sendMessage("Not Probable.");
