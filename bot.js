@@ -287,6 +287,9 @@ return true;
           }
         })
       });
+      if (isPlaying = false){
+        voiceChannel.leave()
+      };
     }
     
     function getID(str, cb) {
