@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const lc = message.content.toLowerCase();
 var botver = 'rewrite'
 
 client.on('ready', () => {
@@ -9,6 +8,7 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
+    const lc = message.content.toLowerCase();
     if (lc === prefix + 'help') {
         embed = new Discord.RichEmbed();
         embed.setColor("#80FF66");
