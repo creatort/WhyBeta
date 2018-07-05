@@ -8,9 +8,6 @@ const fs = require("fs");
 const getYouTubeID = require("get-youtube-id");
 const fetchVideoInfo = require("youtube-info");
 
-
-var config = JSON.parse(fs.readFileSync('./settings.json', 'utf-8'));
-
 const yt_api_key = process.env.YT_TOKEN;
 const bot_controller = process.env.BOT_CTRL;
 
@@ -201,11 +198,10 @@ return true;
     //dont tell anyone about this
 }else if (lc === prefix + 'lol') {
       message.channel.send(':scream: You found the Secret :scream:');
-}
 
 
 //This is the Music Part of the Bot
-if (lc.startsWith(prefix + "play")) {
+}else if (lc.startsWith(prefix + "play")) {
   if (member.voiceChannel || client.guilds.get("338433261934215171").voiceConnection != null) {
     if (queue.length > 0 || isPlaying) {
       getID(args, function(id) {
