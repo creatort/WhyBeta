@@ -10,9 +10,9 @@ client.on('ready', () => {
 
 client.on('message', message => {
     var lc = message.content.toLowerCase();
-    var res = getrandomInt(1,3);
-    var rnd = getrandomInt(1,5);
-    var cup = getrandomInt(1,3);
+    var res = Math.random(1,3);
+    var rnd = Math.random(1,5);
+    var cup = Math.random(1,3);
     if (lc === prefix + 'ping') {
         message.channel.sendMessage(':ping_pong:Pong! Your ping is `' + `${Date.now() - message.createdTimestamp}` + ' ms`');
 
