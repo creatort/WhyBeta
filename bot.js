@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const prefix = "why#";
-var botver = "Just Monika"
-var randomInt = require('random-int');
+var botver = "Just Natsuki"
 
 client.on('ready', () => {
     console.log('Hey JP i am ready!')
@@ -11,9 +10,9 @@ client.on('ready', () => {
 
 client.on('message', message => {
     var lc = message.content.toLowerCase();
-    var res = randomInt(1,3);
-    var rnd = randomInt(1,5);
-    var cup = randomInt(1,3);
+    var res = getrandomInt(1,3);
+    var rnd = getrandomInt(1,5);
+    var cup = getrandomInt(1,3);
     if (lc === prefix + 'ping') {
         message.channel.sendMessage(':ping_pong:Pong! Your ping is `' + `${Date.now() - message.createdTimestamp}` + ' ms`');
 
