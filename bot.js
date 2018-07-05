@@ -285,6 +285,7 @@ return true;
             console.log('Queue is 0');
             queue = [];
             isPlaying = false;
+            voiceChannel.leave();
           } else {
             playMusic(queue[0], message);
           }
