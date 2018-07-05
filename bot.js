@@ -185,7 +185,7 @@ return true;
       
 
 //Guess the Number
-}else if (lc === 'guess'){
+}else if (lc === prefix + 'guess'){
       if(zahl===1){
         result="1";
       }else if(zahl===2){
