@@ -2,6 +2,24 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const prefix = "why#";
 var botver = "Version 2.0 Closed Alpha"
+const ytdl = require("ytdl-core");
+const request = require("request");
+const fs = require("fs");
+const getYouTubeID = require("get-youtube-id");
+const fetchVideoInfo = require("youtube-info");
+
+
+var config = JSON.parse(fs.readFileSync('./settings.json', 'utf-8'));
+
+const yt_api_key = process.env.YT_TOKEN;
+const bot_controller = process.env.BOT_CTRL;
+
+var queue = [];
+var isPlaying = false;
+var dispatcher = null;
+var voiceChannel = null;
+var skipReq = 0;
+var skippers = [];
 
 
 
@@ -19,7 +37,8 @@ client.on('message', message => {
     var res = Math.random(1,3);
     var rnd = Math.random(1,5);
     var cup = Math.random(1,3);
-    var zahl = Math.random(1,5);
+    const member = message.member;
+    const args = message.content.split(' ').slice(1).join(" ");
 
 
 //tells you your ping
@@ -182,110 +201,125 @@ return true;
     //dont tell anyone about this
 }else if (lc === prefix + 'lol') {
       message.channel.send(':scream: You found the Secret :scream:');
-      
+}
 
-//Guess the Number
-} if (lc === prefix + 'numb'){
-      if(zahl===1){
-        result="1";
-      }else if(zahl===2){
-        result="2";
-      }else if(zahl===3){
-        result="3";
-      }else if(zahl===4){
-        result="4";
-      }else if(zahl===5){
-        result="5";
+
+//This is the Music Part of the Bot
+if (lc.startsWith(prefix + "play")) {
+  if (member.voiceChannel || client.guilds.get("338433261934215171").voiceConnection != null) {
+    if (queue.length > 0 || isPlaying) {
+      getID(args, function(id) {
+        add_to_queue(id);
+        fetchVideoInfo(id, function(err, videoInfo) {
+          if (err) throw new Error(err);
+          message.reply(" added to queue: **" + videoInfo.title + "**");
+        });
+      });
+    } else {
+      isPlaying = true;
+      getID(args, function(id) {
+        queue.push("placeholder");
+        playMusic(id, message);
+        fetchVideoInfo(id, function(err, videoInfo) {
+          if (err) throw new Error(err);
+          message.reply(" now playing: **" + videoInfo.title + "**");
+        })
+      });
+    }
+  } else {
+    message.reply(" you need to be in a voice channel!");
+  }
+} else if (lc.startsWith(prefix + "skip")) {
+  if (skippers.indexOf(message.author.id) === -1) {
+    skippers.push(message.author.id);
+    skipReq++;
+    if (skipReq >= Math.ceil((voiceChannel.members.size - 1) / 2)) {
+      skip_song(message);
+      message.reply(" your skip has been acknowledged. Skipping now");
+    } else {
+      message.reply(" your skip has been acknolwedged. You need **" + Math.ceil((voiceChannel.members.size - 1) / 2) - skipReq + "** more skip votes!");
+    }
+  } else {
+    message.reply(" you already voted to skip!");
+  }
+} else if (lc.startsWith(prefix + "clear")) {
+  while (queue.length > 0) {
+    queue.pop();
+  }
+  message.reply("cleared the queue!");
+} else if (lc.startsWith(prefix + "delete")) {
+  getID(args, function(id) {
+    console.log(queue);
+    if (queue.indexOf(id) > -1) {
+      fetchVideoInfo(id, function(err, videoInfo) {
+        if (err) throw new Error(err);
+        message.reply(" removing: **" + videoInfo.title + "**");
+        var deleteindex = queue.indexOf(id);
+        queue.splice(deleteindex, 1);
+      });
+    } else {
+      message.reply(" could not find song in queue!")
+    }
+  })
+}
+});
+
+    function skip_song(message) {
+      dispatcher.end();
+    }
     
-      message.channel.send('Choose a Number between 1 and 5 (type Number and then the Number');
+    function playMusic(id, message) {
+      voiceChannel = message.member.voiceChannel;
+    
+      voiceChannel.join().then(function(connection) {
+        stream = ytdl("https://www.youtube.com/watch?v=" + id, {
+          filter: 'audioonly'
+        });
+        skipReq = 0;
+        skippers = [];
+    
+        dispatcher = connection.playStream(stream);
+        dispatcher.on('end', function() {
+          skipReq = 0;
+          skippers = [];
+          queue.shift();
+          if (queue.length === 0) {
+            queue = [];
+            isPlaying = false;
+          } else {
+            playMusic(queue[0], message);
+          }
+        })
+      });
     }
-     if (lc === 'number 1'){
-      if (zahl === 1){
-      message.channel.sendMessage("The Number was "+ result);
-          message.channel.sendMessage("You won!");
-        }else if(zahl===2) {
-          message.channel.sendMessage("The Number was "+ result);
-          message.channel.send('You lost!')
-        }else if(zahl===3) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-          }else if(zahl===4) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-          }else if(zahl===5) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-      }
-    }else if (lc === 'number 2'){
-      if (zahl===2){
-      message.channel.sendMessage("The Number was "+ result);
-          message.channel.sendMessage("You won!");
-        }else if(zahl===1) {
-          message.channel.sendMessage("The Number was "+ result);
-          message.channel.send('You lost!')
-        }else if(zahl===3) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-          }else if(zahl===4) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-          }else if(zahl===5) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-      }
-    }else if (lc === 'number 3'){
-      if (zahl===3){
-      message.channel.sendMessage("The Number was "+ result);
-          message.channel.sendMessage("You won!");
-        }else if(zahl===2) {
-          message.channel.sendMessage("The Number was "+ result);
-          message.channel.send('You lost!')
-        }else if(zahl===1) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-          }else if(zahl===4) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-          }else if(zahl===5) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-      }
-    }else if (lc === 'number 4'){
-      if (zahl===4){
-      message.channel.sendMessage("The Number was "+ result);
-          message.channel.sendMessage("You won!");
-        }else if(zahl===2) {
-          message.channel.sendMessage("The Number was "+ result);
-          message.channel.send('You lost!')
-        }else if(zahl===3) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-          }else if(zahl===1) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-          }else if(zahl===5) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-      }
-    }else if (lc === 'number 5'){
-      if (zahl===5){
-      message.channel.sendMessage("The Number was "+ result);
-          message.channel.sendMessage("You won!");
-        }else if(zahl===2) {
-          message.channel.sendMessage("The Number was "+ result);
-          message.channel.send('You lost!')
-        }else if(zahl===3) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-          }else if(zahl===4) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
-          }else if(zahl===1) {
-            message.channel.sendMessage("The Number was "+ result);
-            message.channel.send('You lost!')
+    
+    function getID(str, cb) {
+      if (isYoutube(str)) {
+        cb(getYouTubeID(str));
+      } else {
+        search_video(str, function(id) {
+          cb(id);
+        });
       }
     }
+    
+    function add_to_queue(strID) {
+      if (isYoutube(strID)) {
+        queue.push(getYoutubeID(strID));
+      } else {
+        queue.push(strID);
+      }
     }
-    });
-
+    
+    function isYoutube(str) {
+      return str.toLowerCase().indexOf("youtube.com") > -1;
+    }
+    
+    function search_video(query, callback) {
+      request("https://www.googleapis.com/youtube/v3/search?part=id&type=video&q=" + encodeURIComponent(query) + "&key=" + yt_api_key, function(error, response, body) {
+        var json = JSON.parse(body);
+        callback(json.items[0].id.videoId);
+      });
+    }
+  
 client.login(process.env.BOT_TOKEN);
