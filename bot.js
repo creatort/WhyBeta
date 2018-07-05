@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const prefix = "why#";
-var botver = "Version 2.0 Closed Alpha"
+const prefix = "test-";
+var botver = "Forked Copy 0.1"
 const ytdl = require("ytdl-core");
 const request = require("request");
 const fs = require("fs");
@@ -21,8 +21,8 @@ var skippers = [];
 
 
 client.on('ready', () => {
-    console.log('Hey JP i am ready!')
-    client.user.setActivity(botver  + ' | why#help', { type: 'PLAYING' })
+    console.log('Bot is ready!')
+    client.user.setActivity(botver  + ' | test-help', { type: 'WATCHING' })
 });
 
 
@@ -60,7 +60,7 @@ client.on('message', message => {
       embed.addField("Music Commands", "play\nskip\nclear", true);
       
 
-      embed.setFooter("WhyBeta by JPlexer " + botver);
+      embed.setFooter("WhyBeta by JPlexer - Forked Edition" + botver);
       message.channel.send("", { embed: embed });
 return true;
 
