@@ -282,6 +282,7 @@ return true;
           skippers = [];
           queue.shift();
           if (queue.length === 0) {
+            console.log('Queue is 0');
             queue = [];
             isPlaying = false;
           } else {
