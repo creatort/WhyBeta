@@ -56,7 +56,9 @@ client.on('message', message => {
       embed.setColor("#00FFFB");
       embed.setAuthor("WhyBeta Help");
       embed.setDescription("You can use this Commands with WhyBeta. Just type why#[command]");
-      embed.addField("Commands", "ping\npong\nrps\n8ball\ncups\npizza\nhelp", true);
+      embed.addField("Fun & Play Commands", "ping\npong\nrps\n8ball\ncups\npizza\nhelp", true);
+      embed.addField("Music Commands", "play\nskip\nclear", true);
+      
 
       embed.setFooter("WhyBeta by JPlexer " + botver);
       message.channel.send("", { embed: embed });
