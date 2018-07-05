@@ -22,7 +22,7 @@ var skippers = [];
 
 client.on('ready', () => {
     console.log('Bot is ready!')
-    client.user.setActivity(botver  + ' | test-help', { type: 'Being a pro and' })
+    client.user.setActivity' all the humans  | test-help', { type: 'Watching' })
 });
 
 
