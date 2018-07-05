@@ -134,7 +134,7 @@ return true;
   }else if(cup===3){
     result="Cup 3";
   }
-  message.channel.sendMessage("Cup 1, 2 or 3 (Write the Number with Cup)");
+  message.channel.sendMessage("Cup 1, 2 or 3 (type Cup and then the Number)");
 }
   if(lc ==='cup 1'){
     if(cup===2){
@@ -185,7 +185,7 @@ return true;
       
 
 //Guess the Number
-}else if (lc === prefix + 'guess'){
+}else if (lc === prefix + 'numb'){
       if(zahl===1){
         result="1";
       }else if(zahl===2){
@@ -197,7 +197,7 @@ return true;
       }else if(zahl===5){
         result="5";
     
-      message.channel.send('Choose a Number between 1 and 5 (Number and then 1-5');
+      message.channel.send('Choose a Number between 1 and 5 (type Number and then the Number');
     }
      if (lc === 'number 1'){
       if (zahl === 1){
