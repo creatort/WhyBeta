@@ -19,7 +19,7 @@ client.on('message', message => {
     var res = Math.random(1,3);
     var rnd = Math.random(1,5);
     var cup = Math.random(1,3);
-    var zahl = Math.random(1,10);
+    var zahl = Math.random(1,5);
 
 
 //tells you your ping
